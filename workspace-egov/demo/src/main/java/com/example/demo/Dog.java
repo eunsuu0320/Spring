@@ -1,0 +1,14 @@
+package com.example.demo;
+
+import org.springframework.stereotype.Component;
+
+// 자식
+@Component
+public class Dog implements Animal {
+
+	@Override
+	public void sound() {
+		System.out.println("멍멍");
+	}
+
+}
