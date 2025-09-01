@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>단건 조회</h1>
+	<table border="1">
+		<thead>
+			<tr>
+				<th>사원번호</th>
+				<th>firstName</th>
+				<th>lastName</th>
+				<th>급여</th>
+				<th>입사날짜</th>
+				<th>부서명</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+			<td th:text="${emp.employeeId}"></td>
+			<td th:text="${emp.firstName}"></td>
+			<td th:text="${emp.lastName}"></td>
+			<td th:text="${emp.salary}"></td>
+			<td th:text="${emp.hireDate}"></td>
+			<td th:text="${emp.Dept.getDepartmentName()}"></td>
+		</tr>
+		</tbody>
+	</table>
+</body>
+</html>
