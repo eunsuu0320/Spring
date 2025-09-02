@@ -8,11 +8,11 @@
 	rel="stylesheet"
 	integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
 	crossorigin="anonymous">
-	<script>
+<script>
 	function gopage(p) {
-		location.href= 'boardList?page=' + p
+		location.href = 'boardList?page=' + p
 	}
-	</script>
+</script>
 </head>
 <body>
 	<h1>게시판 목록</h1>
@@ -29,16 +29,17 @@
 		</thead>
 		<tbody>
 			<tr th:each="board : ${boardList}">
-			<td th:text="${board.bno}"></td>
-			<td th:text="${board.title}"></td>
-			<td th:text="${board.content}"></td>
-			<td th:text="${board.writer}"></td>
-			<td th:text="${#dates.format(board.regdate, 'yyyy-MM-dd')}"></td>
-			<td th:text="${#dates.format(board.updatedate, 'yyyy-MM-dd')}"></td>
+				<td th:text="${board.bno}"></td>
+				<td th:text="${board.title}"></td>
+				<td><a th:href="@{/board(bno=${board.bno})}"
+					th:text="${board.content}"></a></td>
+				<td th:text="${board.writer}"></td>
+				<td th:text="${#dates.format(board.regdate, 'yyyy-MM-dd')}"></td>
+				<td th:text="${#dates.format(board.updatedate, 'yyyy-MM-dd')}"></td>
 			</tr>
 		</tbody>
 	</table>
-	
+
 	<!-- 페이징 시작 -->
 	<nav aria-label="...">
 		<ul class="pagination">

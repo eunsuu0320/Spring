@@ -14,5 +14,13 @@ FROM   TBL_BOARD
 		FROM TBL_BOARD B) B
 		WHERE RN BETWEEN #{first} AND #{last}
 	</select>
-
+	
+	<!-- 단건조회 -->
+	<select id="selectBoardByNo" parameterType="int" resultType="boardVO">
+	SELECT *
+	FROM   TBL_BOARD
+	WHERE  BNO = #{bno}
+	</select>
+	
+	<!-- 댓글조회 -->
 </mapper>

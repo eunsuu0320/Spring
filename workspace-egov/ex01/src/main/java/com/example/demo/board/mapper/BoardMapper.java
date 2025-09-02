@@ -13,4 +13,7 @@ public interface BoardMapper {
 
 	// 카운트
 	int boardTotalCount(BoardVO board);
+	
+	// 단건 조회
+	BoardVO selectBoardByNo(int bno);
 }
