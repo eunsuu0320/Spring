@@ -81,7 +81,7 @@
       <tr th:each="emp, stat : ${empList}">
          <td th:text="${stat.index}">1</td>
          <td th:text="${emp.employeeId}">100</td>
-         <td><a th:href="@{/emp(employeeId=${emp.employeeId})}"
+         <td><a th:href="@{/emp/emp(employeeId=${emp.employeeId})}"
             th:text="${emp.firstName}"></a></td>
          <td th:text="${emp.lastName}"></td>
          <td class="salaryBold"
