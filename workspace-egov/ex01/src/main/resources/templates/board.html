@@ -39,6 +39,7 @@
 		</tr>
 	</table>
 
+	<h1>댓글 목록</h1>
 	<!-- 댓글 시작 -->
 	<div id="replyList">
 		<table class="table">
@@ -58,42 +59,79 @@
 
 	<!-- 댓글 등록 시작 -->
 	<form id="replyForm" name="replyForm">
-		<input id="reply" name="reply" placeholder="내용을 입력하세요"> 
-		<input id="replyer" name="replyer" placeholder="이름을 입력하세요"> 
-			<input id="bno" name="bno" type="hidden" th:value="${board.bno}">
+		<input id="reply" name="reply" placeholder="내용을 입력하세요"> <input
+			id="replyer" name="replyer" placeholder="이름을 입력하세요"> <input
+			id="bno" name="bno" type="hidden" th:value="${board.bno}">
 		<button type=button class="btnReplyInsert">댓글 등록</button>
 	</form>
 	<!-- 댓글 등록 끝 -->
-	<script>
-	replyInsert();
-	
-	/*-------------------------------------
-	등록 버튼 이벤트 지정
-	---------------------------------------*/	
-	const url = "/reply";
-	
-	function replyInsert(){
-		document.querySelector(".btnReplyInsert").addEventListener("click", function(){
 
-			//파라미터 만들기
-			const reply = replyForm.reply.value;
-			const replyer = replyForm.replyer.value;
-			const bno = replyForm.bno.value;
-			const param = {reply, replyer, bno}
-			
-			//등록 요청
-			fetch(url, {
-				method:"post",
-				headers: {
-				      "Content-Type": "application/json",
-				      // 'Content-Type': 'application/x-www-form-urlencoded',
-				    },
-				body : JSON.stringify(param), 
-			})
-			.then( result => result.text() )
-			.then( result => alert(result) )
+	<script>
+replyList();
+replyInsert();
+
+/*-------------------------------------
+댓글 조회 ajax 호출
+---------------------------------------*/
+function replyList(){
+	const bno = replyForm.bno.value;
+	const url = `/board/${bno}/reply`
+	fetch( url )
+	.then( result => result.json() )
+	.then( result => replyListCallback(result) )
+}
+
+
+/*-------------------------------------
+댓글 조회 콜백
+---------------------------------------*/
+function replyListCallback(result){
+	const replys = document.querySelector("#replyList");
+	replys.innerHTML = "";
+	result.forEach(item => replys.insertAdjacentHTML("beforeend", replyMake(item)) );
+}
+
+
+/*--------------------------------------
+ * 댓글 태그 생성
+ --------------------------------------*/
+ function replyMake(item){
+	return `<div class="row border">
+    <div class="col-lg-2 text-danger">${item.replyer}</div>
+    <div class="col-lg-6">${item.reply}</div>
+    <div class="col-lg-4"><button type="button" data-rno="${item.rno}" class="btn btn-success btnReplyUpdateForm">수정</button>
+                          <button type="button" data-rno="${item.rno}" class="btn btn-danger btnReplyDelete">삭제</button></div>
+	</div>`
+}
+ 
+/*-------------------------------------
+등록 버튼 이벤트 지정
+---------------------------------------*/	
+const url = "/reply";
+function replyInsert(){
+	document.querySelector(".btnReplyInsert")
+	.addEventListener("click", function(){
+		//파라미터 만들기
+		const reply = replyForm.reply.value;
+		const replyer = replyForm.replyer.value;
+		const bno = replyForm.bno.value;
+		const param = {reply, replyer, bno}
+		
+		
+		//등록 요청
+		fetch(url, {
+			method:"post",
+			headers: {
+			      "Content-Type": "application/json",
+			      // 'Content-Type': 'application/x-www-form-urlencoded',
+			    },
+			body : JSON.stringify(param), 
 		})
-	}
-	</script>
+		.then( result => result.text() )
+		location.reload();
+		//.then( result => replyList() )
+	})
+} 
+</script>
 </body>
 </html>

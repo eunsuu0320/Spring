@@ -1,8 +1,11 @@
 package com.example.demo.board.web;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.board.mapper.ReplyMapper;
 import com.example.demo.board.service.ReplyVO;
+import com.example.demo.common.Paging;
 
 @RestController
 public class ReplyController {
@@ -36,9 +40,11 @@ public class ReplyController {
 	}
 	
 	// 전체 조회
-	@GetMapping("/board/{bno}/reply")
-	public String list(long bno) {
-		return "";
+	@GetMapping("/board/{bno}/reply") // 저기 {}안에 있는 값 불러오는 게 @PathVariable 이거
+	public List<ReplyVO> list(@PathVariable long bno, ReplyVO reply) {
+		reply.setFirst(1);
+		reply.setLast(10);
+		return replyMapper.getList(reply);
 	}
 	
 	// 단건 조회

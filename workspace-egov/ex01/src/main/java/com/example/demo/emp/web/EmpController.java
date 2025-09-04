@@ -8,27 +8,28 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.common.Paging;
 import com.example.demo.emp.mapper.EmpMapper;
+import com.example.demo.emp.service.EmpService;
 import com.example.demo.emp.service.EmpVO;
 
 
 @Controller
 public class EmpController {
 	
-	@Autowired EmpMapper EmpMapper; // new x, 객체(빈)가 주입됨
+	@Autowired EmpService empService; // new x, 객체(빈)가 주입됨
 	
 	@GetMapping("/empList")
 	public String empList(Model model, EmpVO empVO, Paging paging) {
 		paging.setPageUnit(5);
-		paging.setTotalRecord(EmpMapper.selectCount(empVO));
+		paging.setTotalRecord(empService.selectCount(empVO));
 		empVO.setFirst(paging.getFirst());
 		empVO.setLast(paging.getLast());
-		model.addAttribute("empList", EmpMapper.selectEmp(empVO));
+		model.addAttribute("empList", empService.selectEmp(empVO));
 		return "empList"; // empList.html
 	}
 	
 	@GetMapping("emp") //localhost/emp?employeeId=100
 	public String emp(Model model, @RequestParam("employeeId") Long employeeId) {
-		model.addAttribute("emp", EmpMapper.selectEmpById(employeeId));
+		model.addAttribute("emp", empService.selectEmpById(employeeId));
 		return "emp";
 	}
 }
